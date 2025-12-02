@@ -11,21 +11,61 @@
 
     <!-- Conexión -->
     <section>
-      <h3>Conexión</h3>
+      <div class="section-header">
+        <h3>Conexión</h3>
+        <button
+          class="help-icon"
+          type="button"
+          data-tooltip="Primero conecta tu cuenta de Google para poder leer y crear eventos en tu calendario."
+        >
+          ?
+        </button>
+      </div>
       <button id="btnConnect">Conectar con Google Calendar</button>
     </section>
 
     <!-- Datos tarea -->
     <section>
-      <h3>Datos de la tarea</h3>
+      <div class="section-header">
+        <h3>Datos de la tarea</h3>
+        <button
+          class="help-icon"
+          type="button"
+          data-tooltip="Estos datos se usarán como plantilla para todos los bloques que se creen en el calendario."
+        >
+          ?
+        </button>
+      </div>
 
-      <label>
-        <span>Nombre del evento:</span>
-        <input type="text" id="eventName" placeholder="Ej: Deep work, Training..." />
-      </label>
+      <div class="field">
+        <div class="field-header">
+          <span>Nombre del evento</span>
+          <button
+            class="help-icon"
+            type="button"
+            data-tooltip="Texto que verás como título en cada bloque del calendario."
+          >
+            ?
+          </button>
+        </div>
+        <input
+          type="text"
+          id="eventName"
+          placeholder="Ej: Deep work, Training..."
+        />
+      </div>
 
-      <label>
-        <span>Color del evento:</span>
+      <div class="field">
+        <div class="field-header">
+          <span>Color del evento</span>
+          <button
+            class="help-icon"
+            type="button"
+            data-tooltip="Color con el que se pintarán los eventos en Google Calendar."
+          >
+            ?
+          </button>
+        </div>
         <select id="eventColor">
           <option value="1">1 - Azul</option>
           <option value="2">2 - Verde</option>
@@ -39,54 +79,78 @@
           <option value="10">10 - Verde neón</option>
           <option value="11">11 - Vino</option>
         </select>
-      </label>
+      </div>
     </section>
 
-    <!-- Fechas -->
-    <section class="grid-2">
-      <h3>Fechas</h3>
-      <div class="grid-row">
-        <label>
-          <span>Fecha Inicio:</span>
-          <input type="date" id="dateStart" />
-        </label>
+    <!-- Rango de la tarea (fecha+hora) -->
+    <section>
+      <div class="section-header">
+        <h3>Rango de la tarea</h3>
+        <button
+          class="help-icon"
+          type="button"
+          data-tooltip="Define desde qué día y hora hasta qué día y hora quieres repartir los bloques."
+        >
+          ?
+        </button>
+      </div>
 
-        <label>
-          <span>Fecha Fin:</span>
-          <input type="date" id="dateEnd" />
-        </label>
+      <div class="field">
+        <div class="field-header">
+          <span>Inicio de la tarea</span>
+          <button
+            class="help-icon"
+            type="button"
+            data-tooltip="Fecha y hora exacta en la que quieres empezar a trabajar esta tarea."
+          >
+            ?
+          </button>
+        </div>
+        <input type="datetime-local" id="taskStartDateTime" />
+      </div>
+
+      <div class="field">
+        <div class="field-header">
+          <span>Fin de la tarea</span>
+          <button
+            class="help-icon"
+            type="button"
+            data-tooltip="Fecha y hora límite hasta la que se deben crear bloques."
+          >
+            ?
+          </button>
+        </div>
+        <input type="datetime-local" id="taskEndDateTime" />
       </div>
     </section>
 
     <!-- Horario laboral -->
-    <section class="grid-2">
-      <h3>Horario laboral</h3>
-      <div class="grid-row">
-        <label>
-          <span>Inicio jornada:</span>
-          <input type="time" id="workdayStart" value="07:00" />
-        </label>
-
-        <label>
-          <span>Fin jornada:</span>
-          <input type="time" id="workdayEnd" value="17:00" />
-        </label>
+    <section>
+      <div class="section-header">
+        <h3>Horario laboral</h3>
+        <button
+          class="help-icon"
+          type="button"
+          data-tooltip="Franja de horas del día en la que aceptas que se creen bloques (por ejemplo, solo en horario de oficina)."
+        >
+          ?
+        </button>
       </div>
-    </section>
 
-    <!-- Rango tarea -->
-    <section class="grid-2">
-      <h3>Rango de la tarea</h3>
       <div class="grid-row">
-        <label>
-          <span>Inicio tarea:</span>
-          <input type="time" id="taskStart" />
-        </label>
+        <div class="field">
+          <div class="field-header">
+            <span>Inicio jornada</span>
+          </div>
+          <input type="time" id="workdayStart" value="07:00" />
+        </div>
 
-        <label>
-          <span>Fin tarea:</span>
-          <input type="time" id="taskEnd" />
-        </label>
+        <div class="field">
+          <div class="field-header">
+            <span>Fin jornada</span>
+          </div>
+          <input type="time" id="workdayEnd" value="17:00" />
+        </div>
       </div>
     </section>
 
