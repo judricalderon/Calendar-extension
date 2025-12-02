@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Calendar Scheduler</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <h2>Calendar Scheduler</h2>
+
+  <!-- Conexión -->
+  <section>
+    <h3>Conexión</h3>
+    <button id="btnConnect">Conectar con Google Calendar</button>
+  </section>
+
+  <hr />
+
+  <!-- Configuración principal -->
+  <section>
+    <h3>Datos de la tarea</h3>
+
+    <label>
+      Nombre del evento:
+      <input type="text" id="eventName" placeholder="Ej: Training">
+    </label>
+
+    <label>
+      Color del evento:
+      <select id="eventColor">
+        <option value="1">1 - Azul</option>
+        <option value="2">2 - Verde</option>
+        <option value="3">3 - Morado</option>
+        <option value="4">4 - Rojo</option>
+        <option value="5">5 - Amarillo</option>
+        <option value="6">6 - Naranja</option>
+        <option value="7">7 - Turquesa</option>
+        <option value="8">8 - Gris</option>
+        <option value="9">9 - Azul oscuro</option>
+        <option value="10">10 - Verde neón</option>
+        <option value="11">11 - Vino</option>
+      </select>
+    </label>
+  </section>
+
+  <section>
+    <h3>Fechas</h3>
+
+    <label>
+      Fecha Inicio:
+      <input type="date" id="dateStart">
+    </label>
+
+    <label>
+      Fecha Fin:
+      <input type="date" id="dateEnd">
+    </label>
+  </section>
+
+  <section>
+    <h3>Horario laboral</h3>
+
+    <label>
+      Inicio jornada:
+      <input type="time" id="workdayStart" value="07:00">
+    </label>
+
+    <label>
+      Fin jornada:
+      <input type="time" id="workdayEnd" value="17:00">
+    </label>
+  </section>
+
+  <section>
+    <h3>Rango de la tarea</h3>
+
+    <label>
+      Inicio tarea:
+      <input type="time" id="taskStart">
+    </label>
+
+    <label>
+      Fin tarea:
+      <input type="time" id="taskEnd">
+    </label>
+  </section>
+
+  <hr />
+
+  <section>
+    <button id="btnRunScheduler" disabled>Crear bloques en el calendario</button>
+  </section>
+
+  <section>
+    <label>Estado</label>
+    <div id="status" class="statusBox">Listo.</div>
+  </section>
+
+  <script src="popup.js"></script>
+</body>
+</html>

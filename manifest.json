@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Calendar Scheduler",
+  "version": "1.0.0",
+  "description": "Extensión para crear bloques de tiempo en Google Calendar según horarios y tareas configurables.",
+  
+  "action": {
+    "default_title": "Calendar Scheduler",
+    "default_popup": "src/popup/popup.html"
+  },
+
+  "options_page": "src/options/options.html",
+
+  "background": {
+    "service_worker": "src/background/background.js",
+    "type": "module"
+  },
+
+  "permissions": [
+    "identity",
+    "storage",
+    "alarms"
+  ],
+
+  "host_permissions": [
+    "https://www.googleapis.com/*",
+    "https://oauth2.googleapis.com/*"
+  ],
+
+  "icons": {
+    "128": "src/assets/icon128.png"
+  },
+
+  "oauth2": {
+    "client_id": "1086585587968-321lpso8a016r9tr0s22u3pok4ddhkb9.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/calendar"
+    ]
+  }
+}
