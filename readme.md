@@ -5,7 +5,7 @@ This extension lets you break long tasks into structured time blocks inside your
 
 
 ## 📑 Table of Contents
-- [English] (#english)
+- [English](#english)
 - [🚀 Features](#-features)
 - [🧩 Architecture](#-architecture)
 - [🛠 Technologies](#-technologies)
@@ -215,7 +215,7 @@ La extensión calcula automáticamente todos los bloques necesarios dentro del r
 ## 🧩 Arquitectura
 
 Se usa estructura modular y tipo Hexagonal / Clean Architecture, separada así:
-´´´
+```
 src/
  ├── popup/           → UI principal (popup.html + popup.js + popup.css)
  ├── options/         → Configuración avanzada (options.html + options.js + options.css)
@@ -226,7 +226,7 @@ src/
  │     └── calendarApi.js → Requests a Google Calendar
  └── storage/
        └── config.js  → Cargar/guardar configuración del usuario 
-´´´
+```
 
 - ✔ UI independiente
 - ✔ Lógica desacoplada
