@@ -1,4 +1,3 @@
-// src/background/background.js
 import { isAuthenticated, startAuthFlow, getAccessToken } from "../lib/auth.js";
 import { loadConfig } from "../storage/config.js";
 import {
