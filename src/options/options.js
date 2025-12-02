@@ -2,30 +2,32 @@
 import { saveConfig, loadConfig } from "../storage/config.js";
 
 const fields = {
+  calendarId: "calendarId",
+  slotMinutes: "slotMinutes",
+  timezone: "timezone",
   clientId: "clientId",
   clientSecret: "clientSecret",
-  calendarId: "calendarId",
-  dateStart: "dateStart",
-  dateEnd: "dateEnd",
-  workdayStart: "workdayStart",
-  workdayEnd: "workdayEnd",
-  taskStart: "taskStart",
-  taskEnd: "taskEnd",
-  eventName: "eventName",
-  slotMinutes: "slotMinutes",
-  eventColor: "eventColor"
 };
 
 function setStatus(msg) {
-  document.getElementById("status").textContent = msg;
+  const el = document.getElementById("status");
+  if (el) el.textContent = msg;
 }
 
 async function load() {
   const cfg = await loadConfig();
+
   Object.entries(fields).forEach(([key, id]) => {
     const input = document.getElementById(id);
-    if (input && cfg[key] !== undefined) {
+    if (!input) return;
+
+    if (cfg[key] !== undefined) {
       input.value = cfg[key];
+    } else {
+      // valores por defecto
+      if (key === "calendarId") input.value = "primary";
+      if (key === "slotMinutes") input.value = "30";
+      if (key === "timezone") input.value = "America/Bogota";
     }
   });
 
@@ -45,11 +47,16 @@ async function save() {
 }
 
 function reset() {
-  Object.values(fields).forEach(id => {
+  Object.entries(fields).forEach(([key, id]) => {
     const input = document.getElementById(id);
-    if (input) input.value = "";
+    if (!input) return;
+
+    if (key === "calendarId") input.value = "primary";
+    else if (key === "slotMinutes") input.value = "30";
+    else if (key === "timezone") input.value = "America/Bogota";
+    else input.value = "";
   });
-  setStatus("Valores restablecidos.");
+  setStatus("Valores restablecidos (no olvides guardar).");
 }
 
 document.addEventListener("DOMContentLoaded", () => {

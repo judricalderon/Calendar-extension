@@ -9,97 +9,48 @@
 <body>
   <div class="container">
     <h1>Configuración del Calendar Scheduler</h1>
-    <!-- Google OAuth -->
-    <section>
-        <h2>Google OAuth</h2>
-        <label>
-            Client ID de Google:
-            <input id="clientId" type="text" placeholder="xxxx.apps.googleusercontent.com" />
-        </label>
-        <label>
-            Client Secret de Google (solo uso local):
-            <input id="clientSecret" type="password" />
-        </label>
-    </section>
 
-    <!-- Calendar -->
+    <!-- Parámetros globales -->
     <section>
-      <h2>Google Calendar</h2>
+      <h2>Parámetros generales</h2>
+
       <label>
         Calendar ID:
         <input id="calendarId" type="text" placeholder="primary" />
       </label>
-    </section>
 
-    <!-- Date Range -->
-    <section>
-      <h2>Rango de Fechas</h2>
-      <label>
-        Fecha Inicio:
-        <input id="dateStart" type="date" />
-      </label>
-      <label>
-        Fecha Fin:
-        <input id="dateEnd" type="date" />
-      </label>
-    </section>
-
-    <!-- Workday -->
-    <section>
-      <h2>Horario Laboral</h2>
-      <label>
-        Hora Inicio:
-        <input id="workdayStart" type="time" />
-      </label>
-      <label>
-        Hora Fin:
-        <input id="workdayEnd" type="time" />
-      </label>
-    </section>
-
-    <!-- Task -->
-    <section>
-      <h2>Rango de Tarea</h2>
-      <label>
-        Inicio tarea:
-        <input id="taskStart" type="time" />
-      </label>
-      <label>
-        Fin tarea:
-        <input id="taskEnd" type="time" />
-      </label>
-    </section>
-
-    <!-- Event -->
-    <section>
-      <h2>Eventos</h2>
-      <label>
-        Nombre del evento:
-        <input id="eventName" type="text" />
-      </label>
       <label>
         Duración del bloque (min):
-        <input id="slotMinutes" type="number" min="5" step="5" />
+        <input id="slotMinutes" type="number" min="5" step="5" placeholder="30" />
       </label>
+
       <label>
-        Color del evento:
-        <select id="eventColor">
-          <option value="1">1 - Azul</option>
-          <option value="2">2 - Verde vibrante</option>
-          <option value="3">3 - Morado</option>
-          <option value="4">4 - Rojo</option>
-          <option value="5">5 - Amarillo</option>
-          <option value="6">6 - Naranja</option>
-          <option value="7">7 - Turquesa</option>
-          <option value="8">8 - Gris</option>
-          <option value="9">9 - Azul oscuro</option>
-          <option value="10">10 - Verde neón</option>
-          <option value="11">11 - Rojo vino</option>
-        </select>
+        Zona horaria (IANA):
+        <input id="timezone" type="text" placeholder="America/Bogota" />
       </label>
     </section>
 
-    <!-- Buttons -->
+    <!-- Google OAuth (modo avanzado) -->
+    <section>
+      <h2>Google OAuth (avanzado)</h2>
+      <p style="font-size: 12px; opacity: 0.8;">
+        Estos campos son opcionales. Si los dejas vacíos, la extensión usará las credenciales
+        por defecto integradas en el código. Úsalos solo si quieres usar tu propio proyecto
+        de Google Cloud.
+      </p>
+
+      <label>
+        Client ID de Google:
+        <input id="clientId" type="text" placeholder="xxxx.apps.googleusercontent.com" />
+      </label>
+
+      <label>
+        Client Secret de Google:
+        <input id="clientSecret" type="password" />
+      </label>
+    </section>
+
+    <!-- Botones -->
     <div class="buttons">
       <button id="save">Guardar Configuración</button>
       <button id="reset">Restablecer Valores</button>
