@@ -5,7 +5,7 @@ This extension lets you break long tasks into structured time blocks inside your
 
 
 ## 📑 Table of Contents
-- [English](#english)
+- [========================English========================](#english)
 - [🚀 Features](#-features)
 - [🧩 Architecture](#-architecture)
 - [🛠 Technologies](#-technologies)
@@ -16,7 +16,7 @@ This extension lets you break long tasks into structured time blocks inside your
 - [🔐 Security](#-security)
 - [📜 License](#-license)
 - [🤝 Contributing](#-contributing)
-- [Spanish](#spanish)
+- [========================Spain========================](#spanish)
 - [📘 Calendar Scheduler – Chrome Extension](#-calendar-scheduler--chrome-extension)
 - [📅 Generación automática de bloques](#-generación-automática-de-bloques)
 - [🧩 Arquitectura](#-arquitectura)
@@ -29,7 +29,7 @@ This extension lets you break long tasks into structured time blocks inside your
 - [📜 Licencia](#-licencia)
 - [🤝 Contribuciones](#-contribuciones)
 
-# 🇪🇸 English 
+# ========================English========================
 ## 🚀 Features
 🔐 Google Authentication
 
@@ -178,7 +178,7 @@ Choose the license you prefer (MIT, Apache, etc.)
 PRs, UI improvements, refactoring, or general suggestions are welcome.
 Open an issue or fork the project anytime.
 
-# Spanish
+# ========================Spanish========================
 
 ## 📘 Calendar Scheduler – Chrome Extension
 
