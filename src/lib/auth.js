@@ -6,9 +6,9 @@ const TOKEN_KEY = "googleTokens";
 
 // 👉 PON AQUÍ TUS CREDENCIALES POR DEFECTO (opción A)
 const DEFAULT_CLIENT_ID =
-  "1086585587968-321lpso8a016r9tr0s22u3pok4ddhkb9.apps.googleusercontent.com";
+  "client.apps.googleusercontent.com";
 const DEFAULT_CLIENT_SECRET =
-  "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";
+  "codedasdasdasdasd";
 
 // -------------------- helpers storage --------------------
 function saveTokens(tokens) {
