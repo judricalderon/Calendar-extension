@@ -29,7 +29,7 @@ This extension lets you break long tasks into structured time blocks inside your
 - [📜 Licencia](#-licencia)
 - [🤝 Contribuciones](#-contribuciones)
 
-# ========================English========================
+# ================English================
 ## 🚀 Features
 🔐 Google Authentication
 
@@ -178,7 +178,7 @@ Choose the license you prefer (MIT, Apache, etc.)
 PRs, UI improvements, refactoring, or general suggestions are welcome.
 Open an issue or fork the project anytime.
 
-# ========================Spanish========================
+# ================Spanish================
 
 ## 📘 Calendar Scheduler – Chrome Extension
 
