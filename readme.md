@@ -10,7 +10,7 @@ This extension lets you break long tasks into structured time blocks inside your
 - [🧩 Architecture](#-architecture)
 - [🛠 Technologies](#-technologies)
 - [📦 Installation](#-installation)
-- [🔧 Configuration](#-configuration)
+- [🔧 Configuration](#-optional-configuration-advanced)
 - [📌 How to Use](#-how-to-use)
 - [🎨 UI/UX](#-uiux)
 - [🔐 Security](#-security)
