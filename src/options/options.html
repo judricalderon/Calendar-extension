@@ -2,12 +2,27 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+    <!--
+    Options Page – Calendar Scheduler
+    ----------------------------------
+    This page allows the user to configure:
+    - Global calendar parameters
+    - Time slot duration
+    - Timezone
+    - Optional Google OAuth credentials (advanced mode)
+
+    These settings are saved in chrome.storage.local and used by the scheduler
+    when generating events and interacting with Google Calendar APIs.
+  -->
   <title>Configuración – Calendar Scheduler</title>
   <link rel="stylesheet" href="options.css">
 </head>
 
 <body>
   <div class="container">
+     <!-- ===========================
+         PAGE HEADER
+    ============================ -->
     <h1>Configuración del Calendar Scheduler</h1>
 <p class="subtitle">Ajustes generales y opciones avanzadas de la extensión.</p>
 

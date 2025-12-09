@@ -1,3 +1,7 @@
+/* ---------------------------------------------------------
+ * Global Styles
+ * Applies dark theme, typography, and resets base spacing.
+ * --------------------------------------------------------- */
 body {
   font-family: system-ui, Arial, sans-serif;
   background: #121212;
@@ -5,13 +9,19 @@ body {
   margin: 0;
   padding: 0;
 }
-
+/* ---------------------------------------------------------
+ * Layout Container
+ * Limits content width and centers the content on screen.
+ * --------------------------------------------------------- */
 .container {
   padding: 20px;
   max-width: 700px;
   margin: 0 auto;
 }
-
+/* ---------------------------------------------------------
+ * Headings
+ * h1 = main title, h2 = section titles.
+ * --------------------------------------------------------- */
 h1 {
   font-size: 22px;
   margin-bottom: 16px;
@@ -23,19 +33,28 @@ h2 {
   margin-bottom: 6px;
   color: #90caf9;
 }
-
+/* ---------------------------------------------------------
+ * Section Blocks
+ * Adds spacing and separators to visually group content.
+ * --------------------------------------------------------- */
 section {
   margin-bottom: 12px;
   padding-bottom: 10px;
   border-bottom: 1px solid #333;
 }
-
+/* ---------------------------------------------------------
+ * Input Labels
+ * Displayed above their corresponding inputs.
+ * --------------------------------------------------------- */
 label {
   display: block;
   margin-bottom: 8px;
   font-size: 14px;
 }
-
+/* ---------------------------------------------------------
+ * Inputs & Selects
+ * Uses a dark field background with bright focus outline.
+ * --------------------------------------------------------- */
 input, select {
   margin-top: 4px;
   width: 100%;
@@ -50,13 +69,19 @@ input, select {
 input:focus, select:focus {
   border: 1px solid #2196f3;
 }
-
+/* ---------------------------------------------------------
+ * Button Section
+ * Arranged horizontally with gap for spacing.
+ * --------------------------------------------------------- */
 .buttons {
   display: flex;
   gap: 10px;
   margin-top: 20px;
 }
-
+/* ---------------------------------------------------------
+ * Buttons
+ * Blue action buttons with hover effects.
+ * --------------------------------------------------------- */
 button {
   flex: 1;
   padding: 10px;
@@ -71,7 +96,10 @@ button {
 button:hover {
   background: #1565c0;
 }
-
+/* ---------------------------------------------------------
+ * Status Message Box
+ * Displays save/reset feedback to the user.
+ * --------------------------------------------------------- */
 .status {
   margin-top: 12px;
   padding: 10px;

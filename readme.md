@@ -125,6 +125,8 @@ If fields are left empty, default credentials are used:
 const DEFAULT_CLIENT_ID = "xxxx.apps.googleusercontent.com";
 const DEFAULT_CLIENT_SECRET = "GOCSPX-xxxxx";
 
+URL = https://<extension-id>.chromiumapp.org/
+
 ## 📌 How to Use
 
 Open the popup

@@ -1,4 +1,10 @@
 /* Fondo general */
+/* ============================================================================
+   Global Layout & Theme
+   ----------------------------------------------------------------------------
+   Defines the base styling for the popup window: dark radial background,
+   system-friendly font stack, and resets for margins and scroll behavior.
+   ============================================================================ */
 html,
 body {
   margin: 0;
@@ -9,7 +15,12 @@ body {
   overflow-x: hidden; /* evita scroll horizontal global */
 }
 
-/* Contenedor del popup */
+/* ============================================================================
+   Popup Container
+   ----------------------------------------------------------------------------
+   The main visual card where all UI components live.
+   Includes rounded corners, soft transparency, and subtle glowing shadows.
+   ============================================================================ */
 .popup-container {
   box-sizing: border-box;
   width: 440px;
@@ -31,7 +42,11 @@ h2 {
   letter-spacing: 0.03em;
 }
 
-/* Secciones */
+/* ============================================================================
+   Section Styling
+   ----------------------------------------------------------------------------
+   Reusable card-style containers for grouping logical UI elements.
+   ============================================================================ */
 section {
   margin-bottom: 10px;
   padding: 10px 9px 9px;
@@ -40,7 +55,9 @@ section {
   border: 1px solid rgba(148, 163, 184, 0.25);
 }
 
-/* Cabecera de sección con icono */
+/* ============================================================================
+   Section Header (Title + Optional Icon)
+   ============================================================================ */
 .section-header {
   display: flex;
   align-items: center;
@@ -56,7 +73,11 @@ section {
   letter-spacing: 0.08em;
 }
 
-/* Campos */
+/* ============================================================================
+   Form Fields
+   ----------------------------------------------------------------------------
+   Provides a consistent layout, spacing, and typography for labels and inputs.
+   ============================================================================ */
 .field {
   display: block;
   margin-bottom: 8px;
@@ -74,7 +95,12 @@ section {
   font-weight: 500;
 }
 
-/* Inputs */
+/* ============================================================================
+   Input Fields
+   ----------------------------------------------------------------------------
+   Dark mode–friendly inputs with subtle highlights on focus.
+   ============================================================================ */
+
 input,
 select {
   width: 100%;
@@ -98,14 +124,22 @@ select:focus {
   box-shadow: 0 0 0 1px rgba(66, 165, 245, 0.5);
 }
 
-/* Grid para dos columnas (horas) */
+/* ============================================================================
+   Two-Column Grid Layout
+   ----------------------------------------------------------------------------
+   Used for time-range controls and other paired input fields.
+   ============================================================================ */
 .grid-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
 
-/* Iconos de ayuda */
+/* ============================================================================
+   Tooltip Helper Icon
+   ----------------------------------------------------------------------------
+   Provides inline contextual help with hover-activated tooltips.
+   ============================================================================ */
 .help-icon {
   display: inline-flex;
   align-items: center;
@@ -170,7 +204,11 @@ select:focus {
   opacity: 1;
 }
 
-/* Botones */
+/* ============================================================================
+   Buttons
+   ----------------------------------------------------------------------------
+   Rounded CTA-style buttons with light elevation and hover interactions.
+   ============================================================================ */
 button {
   width: 100%;
   padding: 9px 0;
@@ -214,7 +252,11 @@ button {
   box-shadow: none;
 }
 
-/* Estado */
+/* ============================================================================
+   Status Box
+   ----------------------------------------------------------------------------
+   Displays runtime operation messages (auth results, scheduler status, etc.).
+   ============================================================================ */
 .status-section {
   margin-bottom: 0;
 }
@@ -231,7 +273,11 @@ button {
   align-items: center;
 }
 
-/* Icono de calendario / reloj visible en inputs de fecha-hora */
+/* ============================================================================
+   Input Icon Rendering (Calendar / Time Icons)
+   ----------------------------------------------------------------------------
+   Ensures the picker icon remains visible in dark mode and leaves extra space.
+   ============================================================================ */
 input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="time"]::-webkit-calendar-picker-indicator,
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {

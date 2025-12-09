@@ -1,6 +1,21 @@
 // src/options/options.js
+/**
+ * Options Page Script
+ *
+ * This module manages:
+ * - Loading previously saved configuration values from chrome.storage.local.
+ * - Populating the options UI with those values.
+ * - Saving new configuration values entered by the user.
+ * - Resetting the UI to default values.
+ *
+ * It interacts with config.js, which applies persistence and maintains defaults.
+ */
 import { saveConfig, loadConfig } from "../storage/config.js";
-
+/**
+ * Field mapping for clean iteration:
+ * Keys correspond to config object properties.
+ * Values correspond to input element IDs.
+ */
 const fields = {
   calendarId: "calendarId",
   slotMinutes: "slotMinutes",
@@ -8,12 +23,19 @@ const fields = {
   clientId: "clientId",
   clientSecret: "clientSecret",
 };
-
+/**
+ * Updates the status message displayed at the bottom of the options page.
+ *
+ * @param {string} msg - Status message to display.
+ */
 function setStatus(msg) {
   const el = document.getElementById("status");
   if (el) el.textContent = msg;
 }
-
+/**
+ * Loads configuration values from storage and populates the options UI.
+ * If a setting is missing, applies default values for essential fields.
+ */
 async function load() {
   const cfg = await loadConfig();
 
@@ -34,6 +56,10 @@ async function load() {
   setStatus("Configuración cargada.");
 }
 
+/**
+ * Reads values from all inputs and persists them using saveConfig().
+ * Displays a confirmation message when completed.
+ */
 async function save() {
   const newConfig = {};
 
@@ -46,6 +72,10 @@ async function save() {
   setStatus("Configuración guardada ✔️");
 }
 
+/**
+ * Resets UI fields to default values.
+ * Does NOT automatically persist changes — user must click "Guardar".
+ */
 function reset() {
   Object.entries(fields).forEach(([key, id]) => {
     const input = document.getElementById(id);
@@ -59,6 +89,11 @@ function reset() {
   setStatus("Valores restablecidos (no olvides guardar).");
 }
 
+/**
+ * Initializes the page:
+ * - Loads existing configuration.
+ * - Attaches event listeners for Save and Reset buttons.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   load();
 

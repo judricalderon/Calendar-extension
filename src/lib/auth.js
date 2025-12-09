@@ -1,22 +1,53 @@
 // src/lib/auth.js
+/**
+ * Authentication Library (Google OAuth with PKCE)
+ *
+ * This module manages:
+ * - Storing and loading OAuth tokens in chrome.storage.local.
+ * - PKCE code verifier and code challenge generation.
+ * - Exchanging authorization codes for access/refresh tokens.
+ * - Refreshing access tokens using the refresh token.
+ * - Launching the Google OAuth flow via chrome.identity.
+ *
+ * Public API:
+ * - isAuthenticated(): checks if there is a valid access token.
+ * - getAccessToken(): returns a valid access token (refreshing or re-authing if needed).
+ * - startAuthFlow(): forces a full interactive OAuth flow.
+ * - clearTokens(): removes stored tokens.
+ */
 import { loadConfig } from "../storage/config.js";
 
 const SCOPES = ["https://www.googleapis.com/auth/calendar"];
 const TOKEN_KEY = "googleTokens";
 
-// 👉 PON AQUÍ TUS CREDENCIALES POR DEFECTO (opción A)
+/**
+ * Default OAuth credentials fallback.
+ * In production, these should be replaced with environment-based or configuration values,
+ * and never hard-coded in public repositories.
+ */
 const DEFAULT_CLIENT_ID =
   "client.apps.googleusercontent.com";
 const DEFAULT_CLIENT_SECRET =
-  "codedasdasdasdasd";
+  "code-secret";
 
 // -------------------- helpers storage --------------------
+/**
+ * Persists tokens in chrome.storage.local.
+ *
+ * @param {{ access_token: string; refresh_token?: string; expires_at: number }} tokens
+ * @returns {Promise<boolean>} Resolves to true when the tokens are stored.
+ */
 function saveTokens(tokens) {
   return new Promise(resolve => {
     chrome.storage.local.set({ [TOKEN_KEY]: tokens }, () => resolve(true));
   });
 }
 
+/**
+ * Loads tokens from chrome.storage.local.
+ *
+ * @returns {Promise<{ access_token: string; refresh_token?: string; expires_at: number } | null>}
+ */
 function loadTokens() {
   return new Promise(resolve => {
     chrome.storage.local.get(TOKEN_KEY, data => {
@@ -25,6 +56,11 @@ function loadTokens() {
   });
 }
 
+/**
+ * Clears any stored tokens from chrome.storage.local.
+ *
+ * @returns {Promise<boolean>} Resolves to true once tokens are removed.
+ */
 export function clearTokens() {
   return new Promise(resolve => {
     chrome.storage.local.remove(TOKEN_KEY, () => resolve(true));
@@ -32,6 +68,14 @@ export function clearTokens() {
 }
 
 // -------------------- helpers tiempo --------------------
+
+/**
+ * Checks whether the given token object is still valid (not expired).
+ * A 60-second safety margin is applied.
+ *
+ * @param {{ access_token?: string; expires_at?: number } | null} tokens
+ * @returns {boolean} True if the token is present and not expired.
+ */
 function isTokenStillValid(tokens) {
   if (!tokens || !tokens.access_token || !tokens.expires_at) return false;
   // 60s de margen
@@ -40,6 +84,12 @@ function isTokenStillValid(tokens) {
 }
 
 // -------------------- PKCE helpers --------------------
+/**
+ * Generates a cryptographically secure random string used as PKCE code verifier.
+ *
+ * @param {number} [length=64] Length of the random string.
+ * @returns {string} Random URL-safe string.
+ */
 function generateRandomString(length = 64) {
   const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
   let result = "";
@@ -51,12 +101,24 @@ function generateRandomString(length = 64) {
   return result;
 }
 
+/**
+ * Computes the SHA-256 digest of a plain string.
+ *
+ * @param {string} plain
+ * @returns {Promise<ArrayBuffer>} SHA-256 digest as an ArrayBuffer.
+ */
 async function sha256(plain) {
   const encoder = new TextEncoder();
   const data = encoder.encode(plain);
   return crypto.subtle.digest("SHA-256", data);
 }
 
+/**
+ * Encodes an ArrayBuffer using base64 URL-safe encoding.
+ *
+ * @param {ArrayBuffer} buffer
+ * @returns {string} Base64url-encoded string.
+ */
 function base64urlencode(buffer) {
   const bytes = new Uint8Array(buffer);
   let str = "";
@@ -65,14 +127,29 @@ function base64urlencode(buffer) {
   }
   return btoa(str).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
-
+/**
+ * Creates a PKCE code challenge from a code verifier.
+ *
+ * @param {string} verifier
+ * @returns {Promise<string>} Base64url-encoded SHA-256 hash of the verifier.
+ */
 async function createCodeChallenge(verifier) {
   const hashed = await sha256(verifier);
   return base64urlencode(hashed);
 }
 
 // -------------------- helpers clientId / clientSecret --------------------
-
+/**
+ * Resolves the OAuth client ID to use.
+ *
+ * Priority:
+ * 1. User-defined clientId in extension config.
+ * 2. DEFAULT_CLIENT_ID constant.
+ * 3. OAuth client_id defined in manifest.json (if present).
+ *
+ * @returns {Promise<string>} Client ID string.
+ * @throws {Error} If no client ID can be resolved.
+ */
 async function getClientId() {
   const cfg = await loadConfig();
 
@@ -86,7 +163,6 @@ async function getClientId() {
     return DEFAULT_CLIENT_ID;
   }
 
-  // fallback al manifest por si lo tienes también ahí
   const manifest = chrome.runtime.getManifest();
   const manifestClientId = manifest.oauth2?.client_id;
   if (manifestClientId) {
@@ -95,11 +171,18 @@ async function getClientId() {
 
   throw new Error("Client ID de Google no configurado.");
 }
-
+/**
+ * Resolves the OAuth client secret to use.
+ *
+ * Priority:
+ * 1. User-defined clientSecret in extension config.
+ * 2. DEFAULT_CLIENT_SECRET constant.
+ *
+ * @returns {Promise<string>} Client secret string.
+ * @throws {Error} If no client secret can be resolved.
+ */
 async function getClientSecret() {
   const cfg = await loadConfig();
-
-  // Permite sobreescribir en options si quieres
   if (cfg.clientSecret) {
     return cfg.clientSecret;
   }
@@ -115,14 +198,30 @@ async function getClientSecret() {
 }
 
 // -------------------- redirect --------------------
-
+/**
+ * Returns the redirect URI used by chrome.identity for OAuth flows.
+ *
+ * @returns {Promise<string>} Redirect URI string.
+ */
 async function getRedirectUri() {
   // Chrome genera algo como: https://<extension-id>.chromiumapp.org/
   return chrome.identity.getRedirectURL();
 }
 
 // -------------------- intercambio de tokens --------------------
-
+/**
+ * Exchanges an authorization code for access and refresh tokens.
+ *
+ * @param {{
+ *   code: string;
+ *   clientId: string;
+ *   redirectUri: string;
+ *   codeVerifier: string;
+ * }} params
+ * @returns {Promise<{ access_token: string; refresh_token?: string; expires_at: number }>}
+ *   Token object with expiration timestamp.
+ * @throws {Error} If the token endpoint returns an error.
+ */
 async function exchangeCodeForTokens({ code, clientId, redirectUri, codeVerifier }) {
   const clientSecret = await getClientSecret();
 
@@ -163,6 +262,15 @@ async function exchangeCodeForTokens({ code, clientId, redirectUri, codeVerifier
   return tokens;
 }
 
+/**
+ * Refreshes an access token using a valid refresh token.
+ *
+ * @param {{ access_token: string; refresh_token?: string; expires_at: number }} tokens
+ * @param {string} clientId
+ * @returns {Promise<{ access_token: string; refresh_token?: string; expires_at: number }>}
+ *   New token object with updated expiration.
+ * @throws {Error} If the refresh token is missing or the refresh fails.
+ */
 async function refreshAccessToken(tokens, clientId) {
   if (!tokens.refresh_token) {
     throw new Error("No hay refresh_token disponible. Reautentica con Google.");
@@ -207,14 +315,28 @@ async function refreshAccessToken(tokens, clientId) {
 }
 
 // -------------------- API pública --------------------
-
-// Para el CHECK_AUTH del popup
+/**
+ * Checks if the user is currently authenticated,
+ * meaning there is a non-expired access token stored.
+ *
+ * @returns {Promise<boolean>} True if a valid token is present, false otherwise.
+ */
 export async function isAuthenticated() {
   const tokens = await loadTokens();
   return isTokenStillValid(tokens);
 }
 
-// Para cuando el background necesite un access_token válido
+/**
+ * Returns a valid access token, refreshing or re-authenticating if needed.
+ *
+ * Flow:
+ * 1. Load tokens from storage.
+ * 2. If still valid, return the current access token.
+ * 3. If expired but refresh_token is present, attempt to refresh.
+ * 4. If refresh fails or there is no refresh_token, run the full auth flow.
+ *
+ * @returns {Promise<string>} Access token string.
+ */
 export async function getAccessToken() {
   const clientId = await getClientId();
   let tokens = await loadTokens();
@@ -232,13 +354,16 @@ export async function getAccessToken() {
       console.warn("No se pudo refrescar el token, se requiere nueva autenticación:", err);
     }
   }
-
-  // Si llegamos aquí, toca hacer flujo completo de Auth
   tokens = await startAuthFlowInternal(clientId);
   return tokens.access_token;
 }
 
-// Para el botón "Conectar con Google" del popup
+/**
+ * Starts the interactive Google OAuth flow.
+ * Intended to be called from the popup when the user clicks "Connect with Google".
+ *
+ * @returns {Promise<boolean>} Resolves to true when the flow completes successfully.
+ */
 export async function startAuthFlow() {
   const clientId = await getClientId();
   await startAuthFlowInternal(clientId);
@@ -246,6 +371,20 @@ export async function startAuthFlow() {
 }
 
 // -------------------- núcleo del auth flow --------------------
+
+/**
+ * Core implementation of the OAuth flow using PKCE and chrome.identity.
+ *
+ * Steps:
+ * - Build the authorization URL with PKCE parameters.
+ * - Launch chrome.identity.launchWebAuthFlow.
+ * - Parse the returned redirect URL to extract the authorization code.
+ * - Exchange the code for tokens.
+ * - Store tokens in chrome.storage.local.
+ *
+ * @param {string} clientId
+ * @returns {Promise<{ access_token: string; refresh_token?: string; expires_at: number }>}
+ */
 async function startAuthFlowInternal(clientId) {
   const redirectUri = await getRedirectUri();
 
