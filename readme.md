@@ -1,5 +1,8 @@
 https://github.com/judricalderon/Calendar-extension
 
+# Video Youtube:
+https://youtu.be/uKCimKoTp9s
+
 📘 Calendar Scheduler – Chrome Extension
 
 Automatically generate work blocks in Google Calendar based on your task duration, working hours, and date range.
